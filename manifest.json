@@ -1,0 +1,47 @@
+{
+	"name": "Logos & images designed by @sumitkarn12",
+	"short_name": "@sumitkarn12",
+	"start_url": "/?launcher=true",
+	"icons": [
+		{
+			"src": "/assets/images/144.png",
+			"type": "image/png",
+			"sizes": "144x144"
+		},
+		{
+			"src": "/assets/images/192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		},
+		{
+			"src": "/assets/images/36.png",
+			"type": "image/png",
+			"sizes": "36x36"
+		},
+		{
+			"src": "/assets/images/48.png",
+			"type": "image/png",
+			"sizes": "48x48"
+		},
+		{
+			"src": "/assets/images/512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		},
+		{
+			"src": "/assets/images/72.png",
+			"type": "image/png",
+			"sizes": "72x72"
+		},
+		{
+			"src": "/assets/images/96.png",
+			"type": "image/png",
+			"sizes": "96x96"
+		}
+	],
+	"orientation": "portrait",
+	"theme_color": "#9c27b0",
+	"background_color": "#9c27b0",
+	"display": "standalone",
+	"gcm_sender_id": "482941778795"
+}
