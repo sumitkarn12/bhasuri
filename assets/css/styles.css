@@ -1,0 +1,34 @@
+.align-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+.w3-hero {
+	height: 100vh;
+	padding: 22px;
+}
+.w3-hero span {
+	font-size: 36px;
+	text-transform: lowercase;
+}
+.ig-card {
+	cursor: pointer;
+}
+.ig-card-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+	height: 100vh;
+	width: 100%;
+	z-index: 10000;
+	cursor: pointer;
+}
+.ig-card-modal-close {
+	position: relative;
+	top: 30px;
+	left: -30px;
+	width: 64px;
+	height: 64px;
+}
