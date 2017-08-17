@@ -18,6 +18,16 @@
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
+	<script type="text/javascript" src="//cloudfront.loggly.com/js/loggly.tracker-2.1.min.js"></script>
+	<script>
+		var _LTracker = _LTracker || [];
+		_LTracker.push({
+			'logglyKey': 'fb28fc81-d346-4d54-bbc4-8b16895ca7cd',
+			'sendConsoleErrors' : true,
+			'tag' : 'loggly-jslogger'
+		});
+	</script>
+
 </head>
 <body>
 	<div class="page posts">
@@ -94,19 +104,6 @@
 		<a href="#policy" class="w3-margin">Policy</a>
 		<a href="#contact" class="w3-margin">Contacts</a>
 	</div>
-
-	<a href="/success">form-success</a>
-
-	<form action="/success" data-netlify="true" id="console" style="display: none;">
-		<input type="hidden" name="browser" id="browser">
-		<input type="hidden" name="timestamp" id="timestamp">
-		<input type="hidden" name="type" id="type">
-		<input type="hidden" name="m1" id="m1">
-		<input type="hidden" name="m2" id="m2">
-		<input type="hidden" name="m3" id="m3">
-		<input type="hidden" name="m4" id="m4">
-		<input type="hidden" name="m5" id="m5">
-	</form>
 
 	<script src="/assets/js/script.js"></script>
 	<script src="//platform.instagram.com/en_US/embeds.js"></script>

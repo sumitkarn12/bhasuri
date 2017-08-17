@@ -4,31 +4,36 @@
 let console_stack = [];
 let cns_err = console.error;
 let cns_log = console.log;
-let form = $("#console");
-console.log= function( m1, m2, m3, m4, m5 ) {
-	update("log", [ m1,m2,m3,m4,m5 ] );
-	cns_log.apply( console, [m1,m2,m3,m4,m5 ]);
+
+console.log= function( value ) {
+	update("log", value );
+	cns_log.call( console, value);
 }
-console.error= function( m1, m2, m3, m4, m5 ) {
-	update( "error", [ m1,m2,m3,m4,m5 ] );
-	cns_err.apply( console, [m1,m2,m3,m4,m5 ]);
+console.error= function( value ) {
+	update("log", value );
+	cns_err.call( console, value);
 }
 function update( type, data ) {
-	form.find("#type").val( type );
-	form.find("#timestamp").val(Date.now());
-	form.find("#browser").val( navigator.userAgent );
-	$.each(data, (i,v)=>{
-		if( $.trim(v)!="") form.find( "input" ).get( i ).value = v;
-	});
-	$.post( form.attr("action"), form.serialize() ).always( console.info );
+	try {
+		OneSignal.getUserId().then( id=> {
+			let json = {
+				type: type,
+				browser: navigator.userAgent,
+				player: id,
+				value: data
+			};
+			_LTracker.push( json );
+		});
+	} catch( e ) {
+		let json = {
+			type: type,
+			browser: navigator.userAgent,
+			player: id,
+			value: data
+		};
+		_LTracker.push( json );
+	}
 }
-$("#console").submit(function(event) {
-	event.preventDefault();
-});
-console.log( $("#console").serialize() );
-// if( !location.hostname.startsWith("localhost") ) {
-// 	console.log( "not localhost" );
-// }
 
 const Collection = Backbone.Collection.extend();
 let _igcard = null, app = null, _contents = null;
@@ -95,12 +100,8 @@ const App = Backbone.Router.extend({
 		"policy" : 					"policy",
 		"p(/:id)" : 					"posts"
 	},
-	about: function() {
-		console.log( "About page" );
-	},
-	policy: function() {
-		console.log( "About page" );
-	},
+	about: function() {},
+	policy: function() {},
 	posts: function( id ) {
 		if( !_contents ) _contents = new Contents();
 		_contents.render();
@@ -131,7 +132,12 @@ OneSignal.push(["init", {
 							OneSignal.isPushNotificationsEnabled().then(isEnabled=>{
 								if( !isEnabled ) {
 									OneSignal.registerForPushNotifications();
-									console.error( "Some problem occured in push service." );
+									console.error({
+										isPushNotificationsSupported: true,
+										isPushNotificationsEnabled: false,
+										message: "Some problem occured in push service",
+										permissionStatus: "granted"
+									});
 									resolve( false );
 								} else {
 									resolve(true);
