@@ -12,7 +12,7 @@ console.log= function( m1, m2, m3, m4, m5 ) {
 	$.each([ m1,m2,m3,m4,m5 ], (i,v)=>{
 		if( $.trim(v)!="") form.find( "input" ).get( i ).value = v;
 	});
-	$.post( "thank-you", form.serialize() ).always( console.info );
+	$.post( form.attr("action"), form.serialize() ).always( console.info );
 	cns_log.apply( console, [m1,m2,m3,m4,m5 ]);
 }
 console.error= function( m1, m2, m3, m4, m5 ) {
@@ -22,7 +22,7 @@ console.error= function( m1, m2, m3, m4, m5 ) {
 	$.each([ m1,m2,m3,m4,m5 ], (i,v)=>{
 		if( $.trim(v)!="") form.find( "input" ).get( i ).value = v;
 	});
-	$.post( "thank-you", form.serialize() ).always( console.info );
+	$.post( form.attr("action"), form.serialize() ).always( console.info );
 	cns_err.apply( console, [m1,m2,m3,m4,m5 ]);
 }
 $("#console").submit(function(event) {
