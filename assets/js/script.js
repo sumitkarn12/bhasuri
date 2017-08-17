@@ -6,24 +6,21 @@ let cns_err = console.error;
 let cns_log = console.log;
 let form = $("#console");
 console.log= function( m1, m2, m3, m4, m5 ) {
-	form.find("#type").val("log");
-	form.find("#timestamp").val(Date.now());
-	form.find("#browser").val( navigator.userAgent );
-	$.each([ m1,m2,m3,m4,m5 ], (i,v)=>{
-		if( $.trim(v)!="") form.find( "input" ).get( i ).value = v;
-	});
-	$.post( form.attr("action"), form.serialize() ).always( console.info );
+	update("log", [ m1,m2,m3,m4,m5 ] );
 	cns_log.apply( console, [m1,m2,m3,m4,m5 ]);
 }
 console.error= function( m1, m2, m3, m4, m5 ) {
-	form.find("#type").val("error");
+	update( "error", [ m1,m2,m3,m4,m5 ] );
+	cns_err.apply( console, [m1,m2,m3,m4,m5 ]);
+}
+function update( type, data ) {
+	form.find("#type").val( type );
 	form.find("#timestamp").val(Date.now());
 	form.find("#browser").val( navigator.userAgent );
-	$.each([ m1,m2,m3,m4,m5 ], (i,v)=>{
+	$.each(data, (i,v)=>{
 		if( $.trim(v)!="") form.find( "input" ).get( i ).value = v;
 	});
 	$.post( form.attr("action"), form.serialize() ).always( console.info );
-	cns_err.apply( console, [m1,m2,m3,m4,m5 ]);
 }
 $("#console").submit(function(event) {
 	event.preventDefault();
