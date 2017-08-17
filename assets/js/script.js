@@ -1,6 +1,38 @@
 
 // Mon Aug 14 16:57:37 2017
 
+let console_stack = [];
+let cns_err = console.error;
+let cns_log = console.log;
+let form = $("#console");
+console.log= function( m1, m2, m3, m4, m5 ) {
+	form.find("#type").val("log");
+	form.find("#timestamp").val(Date.now());
+	form.find("#browser").val( navigator.userAgent );
+	$.each([ m1,m2,m3,m4,m5 ], (i,v)=>{
+		if( $.trim(v)!="") form.find( "input" ).get( i ).value = v;
+	});
+	$.post( "thank-you", form.serialize() ).always( console.info );
+	cns_log.apply( console, [m1,m2,m3,m4,m5 ]);
+}
+console.error= function( m1, m2, m3, m4, m5 ) {
+	form.find("#type").val("error");
+	form.find("#timestamp").val(Date.now());
+	form.find("#browser").val( navigator.userAgent );
+	$.each([ m1,m2,m3,m4,m5 ], (i,v)=>{
+		if( $.trim(v)!="") form.find( "input" ).get( i ).value = v;
+	});
+	$.post( "thank-you", form.serialize() ).always( console.info );
+	cns_err.apply( console, [m1,m2,m3,m4,m5 ]);
+}
+$("#console").submit(function(event) {
+	event.preventDefault();
+});
+console.log( $("#console").serialize() );
+// if( !location.hostname.startsWith("localhost") ) {
+// 	console.log( "not localhost" );
+// }
+
 const Collection = Backbone.Collection.extend();
 let _igcard = null, app = null, _contents = null;
 
@@ -81,7 +113,6 @@ const App = Backbone.Router.extend({
 	execute: function(callback, args, name) {
 		$(".page").hide();
 		$(`.${name}`).show();
-		console.log( name );
 		if (callback) callback.apply(this, args);
 	}
 });
