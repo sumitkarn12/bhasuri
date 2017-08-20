@@ -1,3 +1,6 @@
+* {
+	font-family: tahoma;
+}
 .align-center {
 	display: flex;
 	justify-content: center;
@@ -33,4 +36,34 @@
 }
 .bymitthu-dp-small {
 	padding: 0 66px;
+}
+.about {
+	font-family: "tahoma";
+	font-size: 18px;
+}
+.about a {
+	text-decoration: none;
+}
+.decoration {
+	height: 4px;
+	margin: 0;
+}
+.contact .side {
+	background-image: url(https://source.unsplash.com/TpboTuL3P5g);
+	background-position: center;
+	background-size: cover;
+	background-blend-mode: color-dodge;
+	z-index: -10;
+	filter: blur(15px);
+}
+.contact .align-center {
+	height: 385px;
+}
+.contact .head {
+	position: relative;
+	z-index: 0;
+}
+.contact h1 {
+	font-size: 42px;
+	font-family: tahoma;
 }
