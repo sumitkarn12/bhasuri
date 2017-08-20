@@ -119,6 +119,7 @@ const Contact = Backbone.View.extend({
 		event.preventDefault();
 		let form = $( event.currentTarget ).serialize();
 		console.log( $( event.currentTarget ).serializeArray() );
+		$(event.currentTarget).find(".w3-input").val("");
 		$.post( $(event.currentTarget).attr("action"), form ).done(( res )=>{
 			this.warn( "Thanks. You will be contacted shortly." );
 		}).fail((err)=>{
