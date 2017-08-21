@@ -42,7 +42,7 @@ toastr.options = {
 	timeOut: 0,
 	extendedTimeOut: 0,
 	closeButton: true,
-	positionClass: "toast-top-full-width"
+	positionClass: "toast-bottom-full-width"
 }
 
 const IGCard = Backbone.View.extend({
@@ -71,20 +71,6 @@ const IGCard = Backbone.View.extend({
 
 const Contents = Backbone.View.extend({
 	el: ".posts #contents",
-	codes : "BX79o7Vg4uU,BXsboe9gx9_,BXqe8BdA4RR,BXnjTZygz9K,BXYURGYA20W,BXFnto8gUDt,BW9n3ZXg0iX,BVqoiVigOrU,BU59ZC3A71u,BTs4HDhAh2-,BToABT5A-gR,BTmqIBrg87j,BTk5zJFguFD,BTi5M0JAH3d,BThZQL0Ag4E,BMERByghT4I,kbEeJoEhhq,kZLsglEhnK",
-	template: `<div class="w3-col s6 m4 ig-card" data-code="<%= code %>">
-						<a href="/p/<%= code %>"><img src="//instagram.com/p/<%= code %>/media?size=m" alt="" style="width:100%;"></a>
-					</div>`,
-	collection: Backbone.Collection.extend(),
-	initialize: function() {
-		this.template = _.template( this.template );
-		this.codes = this.codes.split(",").map(v=>{ return { code: v } });
-		this.collection = new this.collection();
-		this.$el.empty();
-		this.collection.on( "add", ( model )=> {this.renderCARD( model.toJSON() );} );
-		this.collection.add( this.codes );
-		return this;
-	},
 	events: {
 		"click a": "show"
 	},
@@ -96,10 +82,6 @@ const Contents = Backbone.View.extend({
 	render: function() {
 		this.$el.show();
 		return this;
-	},
-	renderCARD: function( object ) {
-		let card = this.template( object );
-		this.$el.append( card );
 	}
 });
 
@@ -112,20 +94,18 @@ const Contact = Backbone.View.extend({
 	events: {
 		"submit form" : "submit"
 	},
-	warn: function( text ) {
-		this.$el.find("#info").html( text );
-	},
 	submit: function(event) {
 		event.preventDefault();
 		let form = $( event.currentTarget ).serialize();
 		console.log( $( event.currentTarget ).serializeArray() );
 		$(event.currentTarget).find(".w3-input").val("");
+		let info = toastr.info( "Submitting, Please wait" );
 		$.post( $(event.currentTarget).attr("action"), form ).done(( res )=>{
-			this.warn( "Thanks. You will be contacted shortly." );
+			toastr.success( "Thanks", "You will be contacted shortly." );
 		}).fail((err)=>{
-			this.warn( "Sorry. Something happend. Please try again." );
+			toastr.error( "Sorry", "Something happend. Please try again." );
 			console.error( err );
-		});
+		}).always(()=> info.remove());
 	}
 });
 
