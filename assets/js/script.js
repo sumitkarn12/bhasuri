@@ -35,6 +35,7 @@ function update( type, data ) {
 	}
 }
 
+const colors = ["w3-red","w3-pink","w3-purple","w3-deep-purple","w3-indigo","w3-blue","w3-light-blue","w3-cyan","w3-aqua","w3-teal","w3-green","w3-light-green","w3-lime","w3-sand","w3-khaki","w3-yellow","w3-amber","w3-orange","w3-deep-orange","w3-blue-gray","w3-brown","w3-light-gray","w3-gray","w3-dark-gray","w3-black","w3-pale-red","w3-pale-yellow","w3-pale-green","w3-pale-blue"];
 const Collection = Backbone.Collection.extend();
 let _igcard = null, app = null, _contents = null, _contact = null;
 
@@ -49,7 +50,10 @@ const Contents = Backbone.View.extend({
 	el: ".posts #contents",
 	initialize: function() {
 		this.lazy = new IntersectionObserver( 	entries => this.lazyLoad( entries ), {threshold: 0.1});
-		this.$el.find(".ig-card").each(( i,v )=>this.lazy.observe( v ));
+		this.$el.find(".ig-card").each(( i,v )=>{
+			this.lazy.observe( v );
+			$(v).addClass( colors[Math.floor(Math.random()*colors.length)] );
+		});
 		this.$el.find(".ig-card").each(( i,v )=>{
 			let t = $( v );
 			t.find("img").attr( "src", t.find("img").data("src") );
@@ -70,7 +74,6 @@ const Contents = Backbone.View.extend({
 		return this;
 	}
 });
-
 const Contact = Backbone.View.extend({
 	el: ".contact",
 	render: function() {
@@ -94,7 +97,6 @@ const Contact = Backbone.View.extend({
 		}).always(()=> info.remove());
 	}
 });
-
 const Links = Backbone.View.extend({
 	el: ".links",
 	events: {
