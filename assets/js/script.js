@@ -1,40 +1,6 @@
 
 // Mon Aug 14 16:57:37 2017
 
-let console_stack = [];
-let cns_err = console.error;
-let cns_log = console.log;
-
-console.log= function( value ) {
-	update("log", value );
-	cns_log.call( console, value);
-}
-console.error= function( value ) {
-	update("log", value );
-	cns_err.call( console, value);
-}
-function update( type, data ) {
-	try {
-		OneSignal.getUserId().then( id=> {
-			let json = {
-				type: type,
-				browser: navigator.userAgent,
-				player: id,
-				value: data
-			};
-			_LTracker.push( json );
-		});
-	} catch( e ) {
-		let json = {
-			type: type,
-			browser: navigator.userAgent,
-			player: id,
-			value: data
-		};
-		_LTracker.push( json );
-	}
-}
-
 const colors = ["w3-red","w3-pink","w3-purple","w3-deep-purple","w3-indigo","w3-blue","w3-light-blue","w3-cyan","w3-aqua","w3-teal","w3-green","w3-light-green","w3-lime","w3-sand","w3-khaki","w3-yellow","w3-amber","w3-orange","w3-deep-orange","w3-blue-gray","w3-brown","w3-light-gray","w3-gray","w3-dark-gray","w3-black","w3-pale-red","w3-pale-yellow","w3-pale-green","w3-pale-blue"];
 const Collection = Backbone.Collection.extend();
 let _igcard = null, app = null, _contents = null, _contact = null;
@@ -133,58 +99,6 @@ const App = Backbone.Router.extend({
 	}
 });
 
-var OneSignal = window.OneSignal || [];
-OneSignal.push(["init", {
-	appId: "4614c7c1-18a2-4cdd-9d3b-f54bdd97e5b7",
-	autoRegister: false,
-	notifyButton: {
-		enable: true,
-		size: "small",
-		theme: "inverse",
-		position: "bottom-left",
-		displayPredicate: function() {
-			if ( OneSignal.isPushNotificationsSupported() ) {
-				return new Promise(( resolve, reject ) => {
-					OneSignal.getNotificationPermission().then(permissionStatus=>{
-						if( permissionStatus =="granted" ) {
-							OneSignal.isPushNotificationsEnabled().then(isEnabled=>{
-								if( !isEnabled ) {
-									OneSignal.registerForPushNotifications();
-									console.error({
-										isPushNotificationsSupported: true,
-										isPushNotificationsEnabled: false,
-										message: "Some problem occured in push service",
-										permissionStatus: "granted"
-									});
-									resolve( false );
-								} else {
-									resolve(true);
-								}
-							});
-						} else {
-							resolve(true);
-						}
-					});
-				});
-			} else {
-				return false;
-			}
-		}
-	},
-	allowLocalhostAsSecureOrigin: true
-}]);
-
-OneSignal.push(function() {
-	OneSignal.on( "subscriptionChange", ( status )=>{
-		if( !status ) {
-			toastr.options.timeOut = 0;
-			toastr.options.extendedTimeOut = 0;
-			toastr.warning( "You left PUSH Notification service" );
-		}
-	});
-	OneSignal.setDefaultNotificationUrl("https://www.bhasuri.xyz");
-	OneSignal.setDefaultTitle("Logos designed by Mitthu")
-});
 
 app = new App();
 Backbone.history.start({ pushState: true });
